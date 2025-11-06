@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mini E-Commerce Portal</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="brand">Shoply — Mini E-Commerce</div>
+    <nav>
+      <ul id="menu">
+        <li><a href="#home" data-route="home" class="active">Home</a></li>
+        <li><a href="#products" data-route="products">Products</a></li>
+        <li><a href="#contact" data-route="contact">Contact Us</a></li>
+        <li><a href="#about" data-route="about">About Us</a></li>
+        <li><a href="#account" data-route="account">Login / Register</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Home -->
+    <section id="home" class="card view">
+      <h2>Welcome to Shoply</h2>
+      <p class="small">This demo implements navigation, registration/login with validation, orders, wishlist, comments & reviews, customer care and a reporting form — all in a single page app.</p>
+      <div class="grid" style="margin-top:14px">
+        <div>
+          <div class="card">
+            <h3>Featured Products</h3>
+            <div id="featured" class="products"></div>
+          </div>
+
+          <div class="card" style="margin-top:14px">
+            <h3>Latest Reviews</h3>
+            <ul id="latestReviews" class="list"></ul>
+          </div>
+        </div>
+
+        <aside>
+          <div class="card aligner">
+            <h4>Your Quick Panel</h4>
+            <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px">
+              <button class="navBtn" onclick="navigate('account')">Login / Register</button>
+              <button class="navBtn" onclick="navigate('orders')">View Orders</button>
+              <button class="navBtn" onclick="navigate('wishlist')">Your Wishlist</button>
+              <button class="navBtn" onclick="navigate('customerCare')">Customer Care</button>
+              <button class="navBtn" onclick="navigate('report')">Report an Issue</button>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Products -->
+    <section id="products" class="card view" style="display:none">
+      <h2>Products</h2>
+      <div class="products" id="productsList"></div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="card view" style="display:none">
+      <h2>Contact Us</h2>
+      <form id="contactForm">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <input type="text" id="cname" placeholder="Your name" required />
+          <input type="email" id="cemail" placeholder="Email" required />
+        </div>
+        <textarea id="cmessage" rows="4" placeholder="Your message" style="margin-top:8px" required></textarea>
+        <div style="margin-top:8px;display:flex;gap:8px">
+          <button type="submit">Send</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="card view" style="display:none">
+      <h2>About Us</h2>
+      <p class="small">Shoply is a demo E-Commerce portal built for learning. It demonstrates client-side validation, localStorage persistence, and common e-commerce features.</p>
+    </section>
+
+    <!-- Account / Auth -->
+    <section id="account" class="card view" style="display:none">
+      <h2>Account</h2>
+      <div class="tabs">
+        <div class="tab" id="tab-login">Login</div>
+        <div class="tab" id="tab-register">Register</div>
+      </div>
+
+      <div id="loginForm" style="max-width:420px">
+        <h3>Login</h3>
+        <form id="formLogin">
+          <input type="email" id="loginEmail" placeholder="Email" required />
+          <input type="password" id="loginPassword" placeholder="Password" required />
+          <div style="margin-top:8px;display:flex;gap:8px">
+            <button type="submit">Login</button>
+            <button type="button" onclick="logout()">Logout</button>
+          </div>
+          <p class="small" id="loginMsg"></p>
+        </form>
+      </div>
+
+      <div id="registerForm" style="max-width:540px;display:none">
+        <h3>Register</h3>
+        <form id="formRegister">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <input type="text" id="regName" placeholder="Full name" required />
+            <input type="text" id="regPhone" placeholder="Phone (10 digits)" required />
+          </div>
+          <input type="email" id="regEmail" placeholder="Email" required />
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <input type="password" id="regPass" placeholder="Password (min 6)" required />
+            <input type="password" id="regPass2" placeholder="Confirm password" required />
+          </div>
+          <div style="margin-top:8px;display:flex;gap:8px">
+            <button type="submit">Register</button>
+            <button type="button" onclick="fillTestUser()">Fill sample user</button>
+          </div>
+          <p class="small" id="regMsg"></p>
+        </form>
+      </div>
+
+      <div style="margin-top:14px" class="card">
+        <h4>Account Details</h4>
+        <div id="accountInfo" class="small">Not logged in</div>
+      </div>
+    </section>
+
+    <!-- Orders -->
+    <section id="orders" class="card view" style="display:none">
+      <h2>Your Orders</h2>
+      <ul id="ordersList" class="list"></ul>
+    </section>
+
+    <!-- Wishlist -->
+    <section id="wishlist" class="card view" style="display:none">
+      <h2>Your Wishlist</h2>
+      <ul id="wishlistList" class="list"></ul>
+    </section>
+
+    <!-- Product details with reviews -->
+    <section id="productDetail" class="card view" style="display:none">
+      <button onclick="navigate('products')">← Back to products</button>
+      <h2 id="pdTitle"></h2>
+      <p id="pdDesc" class="small"></p>
+      <div style="margin-top:8px">
+        <button id="pdBuy">Buy (place order)</button>
+        <button id="pdWishlist">Add to wishlist</button>
+      </div>
+      <div style="margin-top:12px" class="card">
+        <h4>Reviews</h4>
+        <ul id="reviewsList" class="list"></ul>
+        <form id="reviewForm" style="margin-top:8px">
+          <input type="text" id="rname" placeholder="Your name" required />
+          <select id="rrating"><option value="5">5 - Excellent</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1 - Poor</option></select>
+          <textarea id="rtext" rows="3" placeholder="Your review" required></textarea>
+          <button style="background: blue;" type="submit">Post Review</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Customer Care -->
+    <section id="customerCare" class="card view" style="display:none">
+      <h2>Customer Care</h2>
+      <form id="careForm">
+        <input id="careName" placeholder="Name" required />
+        <input id="careEmail" type="email" placeholder="Email" required />
+        <select id="careTopic"><option>Order Issue</option><option>Payment</option><option>Return/Refund</option><option>Other</option></select>
+        <textarea id="careMsg" rows="4" placeholder="Describe your issue" required></textarea>
+        <button type="submit">Send</button>
+      </form>
+      <div style="margin-top:12px">
+        <h4>Past Tickets</h4>
+        <ul id="careList" class="list"></ul>
+      </div>
+    </section>
+
+    <!-- Reporting -->
+    <section id="report" class="card view" style="display:none">
+      <h2>Report an Issue / Feedback</h2>
+      <form id="reportForm">
+        <select id="rType"><option>Bug</option><option>Fraud</option><option>Product Issue</option><option>Feedback</option></select>
+        <textarea id="rDesc" rows="4" placeholder="Details" required></textarea>
+        <button type="submit">Submit Report</button>
+      </form>
+      <div style="margin-top:12px">
+        <h4>Submitted Reports</h4>
+        <ul id="reportList" class="list"></ul>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="card">
+    <small>© Shoply Demo — Not a real shop</small>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
