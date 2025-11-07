@@ -1,6 +1,6 @@
 // ---- Sample Data ----
 const sampleProducts = [
-    {id:1,title:'Wireless Headphones',price:1299,desc:'Comfortable over-ear with long battery',img:'',tags:['electronics']},
+    {id:1,title:'Wireless Headphones',price:1299,desc:'Comfortable over-ear with long battery',img:'Assets\Images\wireless-headphones.jpeg',tags:['electronics']},
     {id:2,title:'Running Shoes',price:2399,desc:'Lightweight sports shoes',img:'',tags:['fashion']},
     {id:3,title:'Coffee Maker',price:3499,desc:'Brew café-style coffee at home',img:'',tags:['home']},
     {id:4,title:'Smart Watch',price:5999,desc:'Fitness tracking and notifications',img:'',tags:['electronics']}
